@@ -21,7 +21,7 @@ Traditional socket.io-based communication breaks down when scaling horizontally 
 1. **Prerequisites:** Ensure you have `Node.js` and `yarn` (I used `yarn`, you can use `npm`, `pnpm` or any package manager of your choice) installed on your system.
 2. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/your-username/scalable-chat-app.git](https://github.com/your-username/scalable-chat-app.git)
+   git clone https://github.com/mehdi1514/Scalable-chat-app.git
 
    cd scalable-chat-app
    ```
