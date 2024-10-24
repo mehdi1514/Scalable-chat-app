@@ -1,81 +1,63 @@
-# Turborepo starter
+# Scalable Chat Application with Redis Pub/Sub
 
-This is an official starter Turborepo.
+This project is a chat application built with scalability in mind. It utilizes Redis Pub/Sub to enable real-time communication across multiple backend server instances, ensuring a seamless user experience even during horizontal scaling.
 
-## Using this example
+## Why Redis Pub/Sub?
 
-Run the following command:
+Traditional socket.io-based communication breaks down when scaling horizontally because users on different backend instances cannot message each other directly. Redis Pub/Sub acts as a central message broker, allowing all backend instances to subscribe to a channel and receive messages regardless of their own server location. Additionally, Redis's in-memory nature offers high performance with low latency, maintaining a smooth chat experience.
 
-```sh
-npx create-turbo@latest
-```
+## Tech Stack
 
-## What's inside?
+* **Turborepo:** Manages the project as a monorepo.
+* **Next.js:** Provides a framework for building the interactive frontend user interface.
+* **Node.js:** Powers the backend server logic.
+* **Socket.io:** Enables real-time messaging between users.
+* **Redis:** Facilitates message brokering using Pub/Sub.
+* **Tailwind CSS:** Simplifies UI design with pre-built utility classes.
+* **Aiven:** Provides a cloud-hosted Redis server for deployment.
 
-This Turborepo includes the following packages/apps:
+## Project Setup
 
-### Apps and Packages
+1. **Prerequisites:** Ensure you have `Node.js` and `yarn` (I used `yarn`, you can use `npm`, `pnpm` or any package manager of your choice) installed on your system.
+2. **Clone the Repository:**
+   ```bash
+   git clone [https://github.com/your-username/scalable-chat-app.git](https://github.com/your-username/scalable-chat-app.git)
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+   cd scalable-chat-app
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+3. **Installing dependencies**
 
-### Utilities
+    If you use `yarn`, run the following in the root directory:
 
-This Turborepo has some additional tools already setup for you:
+    ```
+    yarn
+    ```
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+    If you use `npm`:
 
-### Build
+    ```
+    npm install
+    ```
+    Replace `npm` with `pnpm` if you use `pnpm`
 
-To build all apps and packages, run the following command:
+    Since this is a monorepo, both the backend and frontend are present in this repo itself. Running the following in the root directory of the project starts both the backend and frontend servers in dev mode.
 
-```
-cd my-turborepo
-pnpm build
-```
+    `yarn dev`
 
-### Develop
+    **Note: You will have to setup your own Redis server using Aiven or any other cloud service. You can also setup a redis server locally on your device**
 
-To develop all apps and packages, run the following command:
+## Future Enhancements
 
-```
-cd my-turborepo
-pnpm dev
-```
+The primary focus of this project is scalability. Future enhancements include:
 
-### Remote Caching
+* **User Authentication and Authorization:** Implementing secure user login and access control functionalities.
+* **Persistent Data Storage:** Integrating a PostgreSQL database for permanent chat history storage.
+* **Message Handling with Kafka:** Utilizing a Kafka cluster for efficient processing and temporary storage of high-volume messages.
+* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with concurrent queries.
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Screenshots
+### Two users chatting with each other
+![Two users chatting with each other](./app_screenshots/chatapp.png)
+### Redis insights showing messages of the two users
+![Redis insights showing messages of the two users](./app_screenshots/redis.png)
