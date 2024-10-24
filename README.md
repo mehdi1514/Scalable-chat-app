@@ -60,7 +60,7 @@ The primary focus of this project is scalability. Future enhancements include:
 * **User Authentication and Authorization:** Implementing secure user login and access control functionalities.
 * **Persistent Data Storage:** Integrating a PostgreSQL database for permanent chat history storage.
 * **Message Handling with Kafka:** Utilizing a Kafka cluster for efficient processing and temporary storage of high-volume messages.
-* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with concurrent queries.
+* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with millions of concurrent queries.
 
 ## Screenshots
 ### Two users chatting with each other
