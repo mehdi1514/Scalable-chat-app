@@ -16,12 +16,18 @@ Traditional socket.io-based communication breaks down when scaling horizontally 
 * **Tailwind CSS:** Simplifies UI design with pre-built utility classes.
 * **Aiven:** Provides a cloud-hosted Redis server for deployment.
 
+## System Architecure
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/bbc291e0-6666-4d18-a97b-5e556d9b453a" alt="system architecture" width="600" height="400">
+  <p>Different users connected to different servers can communicate to each other because of the Redis server.</p>
+</div>
+
 ## Project Setup
 
 1. **Prerequisites:** Ensure you have `Node.js` and `yarn` (I used `yarn`, you can use `npm`, `pnpm` or any package manager of your choice) installed on your system.
 2. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/your-username/scalable-chat-app.git](https://github.com/your-username/scalable-chat-app.git)
+   git clone https://github.com/mehdi1514/Scalable-chat-app.git
 
    cd scalable-chat-app
    ```
@@ -54,7 +60,7 @@ The primary focus of this project is scalability. Future enhancements include:
 * **User Authentication and Authorization:** Implementing secure user login and access control functionalities.
 * **Persistent Data Storage:** Integrating a PostgreSQL database for permanent chat history storage.
 * **Message Handling with Kafka:** Utilizing a Kafka cluster for efficient processing and temporary storage of high-volume messages.
-* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with concurrent queries.
+* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with millions of concurrent queries.
 
 ## Screenshots
 ### Two users chatting with each other
