@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import { Server } from 'socket.io';
 import Redis from 'ioredis';
+import { produceMessage } from "./kafka"
+import prismaClient from "./prisma";
 
 dotenv.config();
 
@@ -41,9 +43,8 @@ class SocketService {
     }
 
     public initListeners() {
-        this._io.on("connect", socket => {
+        this._io.on("connect", async (socket) => {
             console.log(`🆕 New socket connected ${socket.id}`);
-
             socket.on("event:message", async ({ message, sender }: { message: string, sender: string }) => {
                 console.log(`👉 Received '${message}' from ${sender}`);
 
@@ -53,11 +54,12 @@ class SocketService {
         });
 
         // When a message is received in the redis server, subcriber should get the message
-        sub.on("message", (channel, message) => {
+        sub.on("message", async (channel, message) => {
             // forward messages to clients subscribed to MESSAGES channel
             if(channel === 'MESSAGES') {
-                console.log(`message received for MESSAGES channel: ${message}`);
                 this._io.emit("message", message);
+                await produceMessage(message);
+                console.log(`📨 ${message} produced to kafka broker`)
             }
         });
     }

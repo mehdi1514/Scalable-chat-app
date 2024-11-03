@@ -30,55 +30,71 @@ export default function ChatScreen() {
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(userId);
     }, [userId]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(messages);
     }, [messages]);
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100">
-            <div className="flex-1 overflow-hidden">
-                <div className="h-full overflow-y-auto p-4 space-y-4">
-                    {messages.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`flex ${msg.sender === userId ? 'justify-end' : 'justify-start'}`}
-                        >
-                            <div
-                                className={`min-w-16 md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3 ${
-                                    msg.sender === userId
-                                        ? 'bg-blue-500 text-white'
-                                        : 'bg-white text-gray-800'
-                                }`}
-                            >
-                                <p className='flex text-[8px] justify-end'>~{msg.sender.slice(0,4)}</p>
-                                <p className='flex text-base justify-start'>{msg.message}</p>
+        <>
+            <header>
+                <nav className="bg-white sticky top-0 z-50 shadow-lg">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-16">
+                            <div className="flex items-center">
+                                <a href="/" className="text-xl font-bold text-gray-800">
+                                    Chat App
+                                </a>
                             </div>
                         </div>
-                    ))}
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <div className="flex flex-col h-screen bg-gray-100">
+                    <div className="flex-1 overflow-hidden">
+                        <div className="h-full overflow-y-auto p-4 space-y-4">
+                            {messages.map((msg, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex ${msg.sender === userId ? 'justify-end' : 'justify-start'}`}
+                                >
+                                    <div
+                                        className={`min-w-16 md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3 ${msg.sender === userId
+                                                ? 'bg-blue-500 text-white'
+                                                : 'bg-white text-gray-800'
+                                            }`}
+                                    >
+                                        <p className='flex text-[8px] justify-end'>~{msg.sender.slice(0, 4)}</p>
+                                        <p className='flex text-base justify-start'>{msg.message}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-200 px-4 pt-4 pb-4 sm:pb-6 bg-white fixed bottom-0 w-full">
+                        <form onSubmit={handleSendMessage} className="flex space-x-3">
+                            <input
+                                type="text"
+                                placeholder="Type a message..."
+                                className="flex-1 rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                            />
+                            <button
+                                type="submit"
+                                className="inline-flex items-center justify-center rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            >
+                                <PaperAirplaneIcon className="h-6 w-6" />
+                                <span className="sr-only">Send message</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div className="border-t border-gray-200 px-4 pt-4 pb-4 sm:pb-6 bg-white">
-                <form onSubmit={handleSendMessage} className="flex space-x-3">
-                    <input
-                        type="text"
-                        placeholder="Type a message..."
-                        className="flex-1 rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    />
-                    <button
-                        type="submit"
-                        className="inline-flex items-center justify-center rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                        <PaperAirplaneIcon className="h-6 w-6" />
-                        <span className="sr-only">Send message</span>
-                    </button>
-                </form>
-            </div>
-        </div>
+            </main>
+        </>
     )
 }
