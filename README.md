@@ -18,7 +18,7 @@ Traditional socket.io-based communication breaks down when scaling horizontally 
 
 ## System Architecure
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/bbc291e0-6666-4d18-a97b-5e556d9b453a" alt="system architecture" width="600" height="400">
+  <img src="./app_screenshots/chatapp.png" alt="system architecture" width="700" height="400">
   <p>Different users connected to different servers can communicate to each other because of the Redis server.</p>
 </div>
 
