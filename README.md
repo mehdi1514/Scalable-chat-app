@@ -57,10 +57,12 @@ Traditional socket.io-based communication breaks down when scaling horizontally 
 
 The primary focus of this project is scalability. Future enhancements include:
 
-* **User Authentication and Authorization:** Implementing secure user login and access control functionalities.
-* **Persistent Data Storage:** Integrating a PostgreSQL database for permanent chat history storage.
-* **Message Handling with Kafka:** Utilizing a Kafka cluster for efficient processing and temporary storage of high-volume messages.
-* **Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with millions of concurrent queries.
+* ~**User Authentication and Authorization:** Implementing secure user login and access control functionalities.~ Done ✅
+* ~**Persistent Data Storage:** Integrating a PostgreSQL database for permanent chat history storage.~ Done ✅
+* ~**Message Handling with Kafka:** Utilizing a Kafka cluster for efficient processing and temporary storage of high-volume messages.~ Done ✅
+* ~**Background Data Migration:** Implementing a consumer service to gradually move messages from Kafka to the PostgreSQL database, preventing overwhelming the database with millions of concurrent queries.~ Done ✅
+* Implement a middleware for authorization. The user should not be able to access the chat page without being authenticated.
+* There exists only a single chat room as of now for all users. Create functionality to enable users to create their own chat rooms.
 
 ## Screenshots
 ### Two users chatting with each other
