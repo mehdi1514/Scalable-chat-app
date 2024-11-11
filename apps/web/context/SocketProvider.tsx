@@ -1,6 +1,8 @@
 'use client';
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { io, Socket } from 'socket.io-client';
+import { useSession } from "next-auth/react";
+import { User } from "next-auth";
 
 // creating an interface for providing the type of props SockerProvider expects
 // Several benefits: Type Safety, Developer Support, Error Prevention
@@ -13,13 +15,13 @@ interface SocketProviderProps {
 // This helps prevent errors where incorrect data type might be passed into the context.
 interface ISocketContext {
     sendMessage: (msg: string) => any;
-    messages: { sender: string, message: string }[];
-    userId: string | null;
+    messages: { sender: User, message: string }[];
+    userId: string | undefined;
 }
 
 interface Message {
     message: string;
-    sender: string;
+    sender: User;
 }
 
 
@@ -36,27 +38,31 @@ const SocketContext = React.createContext<ISocketContext | null>(null);
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const [socket, setSocket] = useState<Socket>();
     const [messages, setMessages] = useState<Message[]>([]);
-    const userIdRef = useRef<string | null>(null);
+    const [userId, setUserId] = useState<string | undefined>();
+    const { data: session } = useSession();
+    
 
     const sendMessage: ISocketContext['sendMessage'] = useCallback((msg: string) => {
-        console.log(`Sending msg: ${msg} with userId ${userIdRef.current}`);
+        console.log(`Sending msg: ${msg} with userId ${session?.user?.id}`);
         // if socket is created, emit the msg
         if (socket) {
-            socket.emit("event:message", { message: msg, sender: userIdRef.current });
+            socket.emit("event:message", { message: msg, sender: session?.user });
         }
     }, [socket]);
 
     const onMessageReceived = useCallback((msg: string) => {
         console.log(`Message Received from redis: ${msg}`);
-        const { message, sender } = JSON.parse(msg) as { message: string, sender: string };
+        const { message, sender } = JSON.parse(msg) as { message: string, sender: User };
         setMessages((prev) => [...prev, { sender: sender, message: message }]);
     }, []);
 
     useEffect(() => {
+        setUserId(session?.user.id);
+    }, [session]);
+    useEffect(() => {
         const _socket = io("http://localhost:8000");
         setSocket(_socket);
         _socket.on("connect", async () => {
-            userIdRef.current = _socket.id || null;
             try {
                 const response = await fetch('http://localhost:8000/api/messages');
                 const data = await response.json();
@@ -71,7 +77,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
-            console.log("Connected with userId:", userIdRef.current);
         });
         _socket.on("message", onMessageReceived);
 
@@ -83,7 +88,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     }, []);
 
     return (
-        <SocketContext.Provider value={{ sendMessage, messages, userId: userIdRef.current }}>
+        <SocketContext.Provider value={{ sendMessage, messages, userId: userId }}>
             {children}
         </SocketContext.Provider>
     );
