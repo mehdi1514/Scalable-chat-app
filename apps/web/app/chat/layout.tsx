@@ -11,12 +11,15 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return (
         <SessionProvider session={session}>
             <SocketProvider>
+            <div className="flex flex-col h-screen w-screen bg-gray-100">
                 <header>
                     <Nav/>
                 </header>
                 <main>
                     {children}
                 </main>
+            </div>
+                
             </SocketProvider>
         </SessionProvider>
 

@@ -26,17 +26,21 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form data:', formData);
-    const res = await axios.post(process.env.REGISTER_URL as string, {
-      fullname: formData.fullname,
-      email: formData.email,
-      password: formData.password,
-    });
-    if(res?.status === 201) {
-      alert("You are registered! You can now login with your credentials.");
-      router.push("/login");
-    } else if (res?.status === 400) {
-      setErrorMessage("User with the entered email already exists");
+    console.log("REGISTER_URL", process.env.NEXT_PUBLIC_REGISTER_URL);
+    try {
+      const res = await axios.post(process.env.NEXT_PUBLIC_REGISTER_URL as string, {
+        fullname: formData.fullname,
+        email: formData.email,
+        password: formData.password,
+      });
+      if(res?.status === 201) {
+        alert("You are registered! You can now login with your credentials.");
+        router.push("/login");
+      } else if (res?.status === 400) {
+        setErrorMessage("User with the entered email already exists");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 const LoginForm: React.FC = () => {
 
     const [errorMessage, setErrorMessage] = useState<String | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
@@ -20,6 +21,7 @@ const LoginForm: React.FC = () => {
                 // const response = await authenticate(emailRef.current.value, emailRef.current.value);
                 // console.log(response);
                 // redirect("/chat");
+                setIsLoading(true);
                 const response: any = await signIn("credentials", {
                     email: emailRef.current.value,
                     password: passwordRef.current.value,
@@ -31,8 +33,10 @@ const LoginForm: React.FC = () => {
                 } else if (response?.status === 401) {
                     setErrorMessage("Invalid email or password");
                 }
+                setIsLoading(false);
             } catch (error) {
                 console.log(`${error}`);
+                setIsLoading(false);
             }
         }
 
@@ -73,9 +77,10 @@ const LoginForm: React.FC = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        className={`w-full text-white py-2 px-4 rounded-md shadow-sm
+                              ${isLoading ? "cursor-not-alllowed opacity-70 bg-blue-500": "bg-blue-500 hover:bg-blue-600"}`}
                     >
-                        Log In
+                        {isLoading ? "Please wait..." : "Log In"}
                     </button>
 
                     <div

@@ -48,9 +48,9 @@ export default function Chat() {
     return (
         <>
             <main>
-                <div className="flex flex-col h-screen bg-gray-100">
-                    <div className="flex-1 overflow-hidden">
-                        <div className="h-full overflow-y-auto p-4 space-y-4">
+                
+                    <div className="flex-1 overflow-hidden mt-20 mb-20 overflow-y-auto p-4 space-y-4">
+                        
                             {messages.map((msg, index) => (
                                 <div
                                     key={index}
@@ -67,7 +67,7 @@ export default function Chat() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        
                     </div>
                     <div className="border-t border-gray-200 px-4 pt-4 pb-4 sm:pb-6 bg-white fixed bottom-0 w-full">
                         <form onSubmit={handleSendMessage} className="flex space-x-3">
@@ -87,7 +87,7 @@ export default function Chat() {
                             </button>
                         </form>
                     </div>
-                </div>
+                
             </main>
         </>
     )
